@@ -171,7 +171,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentLeft="true"
-				android:layout_below="@id/humidity"
+				android:layout_below="@id/pm25_content"
 				android:layout_centerInParent="true"
 				android:layout_marginTop="5.0dip" >
 				<!-- 天气情况图片示例 -->

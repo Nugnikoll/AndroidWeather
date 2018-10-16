@@ -84,13 +84,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	private void update_weather(weather_content content){
 		text_city_name.setText(content.city + "天气");
 		text_city.setText(content.city);
-		text_time.setText(content.update_time + "日发布");
-		text_humidity.setText("湿度:" + content.humidity);
+		text_time.setText(content.update_time + "发布");
+		text_humidity.setText("湿度" + content.humidity);
 		text_pm_data.setText(content.pm_data);
 		text_pm_quality.setText(content.pm_quality);
 		text_week.setText(content.date);
 		text_temperature.setText(content.thermo_low + "~" + content.thermo_high);
 		text_climate.setText(content.weather_type);
+		text_wind.setText("风力" + content.wind_strength);
 		Toast.makeText(MainActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
 	}
 
