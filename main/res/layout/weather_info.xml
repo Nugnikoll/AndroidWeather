@@ -35,7 +35,7 @@
 				android:layout_height="fill_parent"
 				android:layout_toRightOf="@id/city_seperator"
 				android:gravity="center_vertical"
-				android:text="Weather in Beijing"
+				android:text="北京天气"
 				android:textColor="#ffffff"
 				android:textSize="22.0sp"
 			/>
@@ -204,7 +204,7 @@
 					android:singleLine="true"
 					android:text="-2°C~7°C"
 					android:textColor="@android:color/white"
-					android:textSize="30.0sp" />
+					android:textSize="20.0sp" />
 				<!-- 天气状况 -->
 				<TextView
 					android:id="@+id/climate"

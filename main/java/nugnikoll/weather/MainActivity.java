@@ -3,6 +3,8 @@ package nugnikoll.weather;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,10 +27,24 @@ import nugnikoll.util.net_util;
 import nugnikoll.util.weather_content;
 
 public class MainActivity extends Activity implements View.OnClickListener{
+	private static final int UPDATE_WEATHER = 1;
+
 	private ImageView button_update;
 	private TextView text_city, text_time, text_humidity, text_week, text_pm_data;
 	private TextView text_pm_quality, text_temperature, text_climate, text_wind, text_city_name;
 	private ImageView image_weather, image_pm;
+
+	private Handler handler_update = new Handler() {
+		public void handleMessage(android.os.Message msg){
+			switch(msg.what){
+			case UPDATE_WEATHER:
+				update_weather((weather_content) msg.obj);
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -63,6 +79,19 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		text_climate.setText("N/A");
 		text_wind.setText("N/A");
 		text_city_name.setText("N/A");
+	}
+
+	private void update_weather(weather_content content){
+		text_city_name.setText(content.city + "天气");
+		text_city.setText(content.city);
+		text_time.setText(content.update_time + "日发布");
+		text_humidity.setText("湿度:" + content.humidity);
+		text_pm_data.setText(content.pm_data);
+		text_pm_quality.setText(content.pm_quality);
+		text_week.setText(content.date);
+		text_temperature.setText(content.thermo_low + "~" + content.thermo_high);
+		text_climate.setText(content.weather_type);
+		Toast.makeText(MainActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
 	}
 
 	private weather_content parse_xml(String xml_data){
@@ -188,6 +217,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 					if(content != null){
 						Log.d("my_weather", content.toString());
+
+						Message msg = new Message();
+						msg.what = UPDATE_WEATHER;
+						msg.obj = content;
+						handler_update.sendMessage(msg);
 					}
 
 				}catch(Exception e){
@@ -210,11 +244,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 			if(net_util.get_network_state(this) != net_util.NETWORK_NONE){
 				Log.d("my_weather", "network connection is fine");
-				Toast.makeText(MainActivity.this, "network connection is fine.", Toast.LENGTH_LONG).show();
+				Toast.makeText(MainActivity.this, "网络连接正常", Toast.LENGTH_LONG).show();
 				query_weather_code(city_code);
 			}else{
 				Log.d("my_weather", "network connection is not available");
-				Toast.makeText(MainActivity.this, "network connection is not available.", Toast.LENGTH_LONG).show();
+				Toast.makeText(MainActivity.this, "网络断开", Toast.LENGTH_LONG).show();
 			}
 
 			init_view();
