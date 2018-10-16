@@ -8,9 +8,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -27,6 +33,81 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		button_update = (ImageView) findViewById(R.id.title_update_button);
 		button_update.setOnClickListener(this);
     }
+
+	private void parse_xml(String xml_data){
+		int wind_direction = 0;
+		int wind_strength = 0;
+		int date = 0;
+		int thermo_high = 0;
+		int thermo_low = 0;
+		int weather_type = 0;
+
+		try{
+			XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+			XmlPullParser xml_parser = factory.newPullParser();
+			xml_parser.setInput(new StringReader(xml_data));
+			int event_type = xml_parser.getEventType();
+			Log.d("my_weather", "parse XML");
+			while(event_type != XmlPullParser.END_DOCUMENT){
+				switch(event_type){
+				case XmlPullParser.START_DOCUMENT:
+					break;
+				case XmlPullParser.START_TAG:
+					if(xml_parser.getName().equals("city")){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "city: " + xml_parser.getText());
+					}else if(xml_parser.getName().equals("updatetime")){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "updatetime: " + xml_parser.getText());
+					}else if(xml_parser.getName().equals("shidu")){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "humidity: " + xml_parser.getText());
+					}else if(xml_parser.getName().equals("wendu")){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "temperature: " + xml_parser.getText());
+					}else if(xml_parser.getName().equals("pm25")){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "pm2.5: " + xml_parser.getText());
+					}else if(xml_parser.getName().equals("quality")){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "quality: " + xml_parser.getText());
+					}else if(xml_parser.getName().equals("fengxiang") && wind_direction == 0){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "wind direction: " + xml_parser.getText());
+						wind_direction = 1;
+					}else if(xml_parser.getName().equals("fengli") && wind_strength == 0){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "wind strength: " + xml_parser.getText());
+						wind_strength = 1;
+					}else if(xml_parser.getName().equals("date") && date == 0){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "date: " + xml_parser.getText());
+						date = 1;
+					}else if(xml_parser.getName().equals("high") && thermo_high == 0){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "thermo high: " + xml_parser.getText());
+						thermo_high = 1;
+					}else if(xml_parser.getName().equals("low") && thermo_low == 0){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "thermo_low: " + xml_parser.getText());
+						thermo_low = 1;
+					}else if(xml_parser.getName().equals("type") && weather_type == 0){
+						event_type = xml_parser.next();
+						Log.d("my_weather", "weather type: " + xml_parser.getText());
+						weather_type = 1;
+					}
+					break;
+				case XmlPullParser.END_TAG:
+					break;
+				}
+				event_type = xml_parser.next();
+			}
+		}catch(XmlPullParserException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
 
 	private void query_weather_code(String city_code){
 		final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey=" + city_code;
@@ -51,6 +132,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 					}
 					String response_str = response.toString();
 					Log.d("my_weather", response_str);
+					parse_xml(response_str);
 				}catch(Exception e){
 					e.printStackTrace();
 				}finally{
