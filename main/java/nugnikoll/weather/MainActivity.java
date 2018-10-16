@@ -255,16 +255,32 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	public void onClick(View view){
 		if(view.getId() == R.id.title_city_manager){
 			Intent itt = new Intent(this, act_city.class);
-			startActivity(itt);
+			startActivityForResult(itt, 1);
 		}else if(view.getId() == R.id.title_update_button){
 			SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
 			String city_code = sharedPreferences.getString("main_city_code", "101010100");
 			Log.d("my_weather", city_code);
 
 			if(net_util.get_network_state(this) != net_util.NETWORK_NONE){
-				//Log.d("my_weather", "network connection is fine");
+				Log.d("my_weather", "network connection is fine");
 				//Toast.makeText(MainActivity.this, "网络连接正常", Toast.LENGTH_LONG).show();
 				query_weather_code(city_code);
+			}else{
+				Log.d("my_weather", "network connection is not available");
+				Toast.makeText(MainActivity.this, "网络断开", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+
+	protected void onActivityResult(int request_code, int result_code, Intent data){
+		if(request_code == 1 && result_code == RESULT_OK){
+			String new_city_code = data.getStringExtra("city_code");
+			Log.d("my_weather", "the selected city code is " + new_city_code);
+
+			if(net_util.get_network_state(this) != net_util.NETWORK_NONE){
+				Log.d("my_weather", "network connection is fine");
+				//Toast.makeText(MainActivity.this, "网络连接正常", Toast.LENGTH_LONG).show();
+				query_weather_code(new_city_code);
 			}else{
 				Log.d("my_weather", "network connection is not available");
 				Toast.makeText(MainActivity.this, "网络断开", Toast.LENGTH_LONG).show();

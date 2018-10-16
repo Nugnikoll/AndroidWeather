@@ -1,6 +1,7 @@
 package nugnikoll.weather;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,6 +22,9 @@ public class act_city extends Activity implements View.OnClickListener{
 	public void onClick(View view){
 		switch(view.getId()){
 		case R.id.title_back:
+			Intent itt = new Intent();
+			itt.putExtra("city_code", "101160101");
+			setResult(RESULT_OK, itt);
 			finish();
 			break;
 		default:
