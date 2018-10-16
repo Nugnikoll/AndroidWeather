@@ -7,7 +7,6 @@
 	<LinearLayout
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:layout_below="@id/title"
 		android:background="@drawable/biz_plugin_weather_shenzhen_bg"
 		android:orientation="vertical" >
 		<RelativeLayout
@@ -22,7 +21,7 @@
 				android:src="@drawable/title_city"
 			/>
 			<ImageView
-				android:id="@+id/city_seperator"
+				android:id="@+id/city_separator"
 				android:layout_width="1.0dip"
 				android:layout_height="40dip"
 				android:layout_marginTop="2.0dip"
@@ -33,7 +32,7 @@
 				android:id="@+id/title_city_name"
 				android:layout_width="fill_parent"
 				android:layout_height="fill_parent"
-				android:layout_toRightOf="@id/city_seperator"
+				android:layout_toRightOf="@id/city_separator"
 				android:gravity="center_vertical"
 				android:text="北京天气"
 				android:textColor="#ffffff"

@@ -1,6 +1,7 @@
 package nugnikoll.weather;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +31,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	private static final int UPDATE_WEATHER = 1;
 
 	private ImageView button_update;
+	private ImageView button_select;
 	private TextView text_city, text_time, text_humidity, text_week, text_pm_data;
 	private TextView text_pm_quality, text_temperature, text_climate, text_wind, text_city_name;
 	private ImageView image_weather, image_pm;
@@ -47,12 +49,25 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	};
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState){
-	    super.onCreate(savedInstanceState);
+	protected void onCreate(Bundle save_instance_state){
+	    super.onCreate(save_instance_state);
 	    setContentView(R.layout.weather_info);
 
 		button_update = (ImageView) findViewById(R.id.title_update_button);
 		button_update.setOnClickListener(this);
+
+		button_select = (ImageView) findViewById(R.id.title_city_manager);
+		button_select.setOnClickListener(this);
+
+		init_view();
+
+		if(net_util.get_network_state(this) != net_util.NETWORK_NONE){
+			Log.d("my_weather", "network connection is fine");
+			Toast.makeText(MainActivity.this, "网络连接正常", Toast.LENGTH_LONG).show();
+		}else{
+			Log.d("my_weather", "network connection is not available");
+			Toast.makeText(MainActivity.this, "网络断开", Toast.LENGTH_LONG).show();
+		}
     }
 
 	private void init_view(){
@@ -238,21 +253,22 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 	@Override
 	public void onClick(View view){
-		if(view.getId() == R.id.title_update_button){
+		if(view.getId() == R.id.title_city_manager){
+			Intent itt = new Intent(this, act_city.class);
+			startActivity(itt);
+		}else if(view.getId() == R.id.title_update_button){
 			SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
 			String city_code = sharedPreferences.getString("main_city_code", "101010100");
 			Log.d("my_weather", city_code);
 
 			if(net_util.get_network_state(this) != net_util.NETWORK_NONE){
-				Log.d("my_weather", "network connection is fine");
-				Toast.makeText(MainActivity.this, "网络连接正常", Toast.LENGTH_LONG).show();
+				//Log.d("my_weather", "network connection is fine");
+				//Toast.makeText(MainActivity.this, "网络连接正常", Toast.LENGTH_LONG).show();
 				query_weather_code(city_code);
 			}else{
 				Log.d("my_weather", "network connection is not available");
 				Toast.makeText(MainActivity.this, "网络断开", Toast.LENGTH_LONG).show();
 			}
-
-			init_view();
 		}
 	}
 }
