@@ -10,7 +10,7 @@
 		android:layout_height="45.0dip"
 		android:background="#202020">
 		<TextView
-			android:id="@+id/title_name"
+			android:id="@+id/title_city_select"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent"
 			android:gravity="center"

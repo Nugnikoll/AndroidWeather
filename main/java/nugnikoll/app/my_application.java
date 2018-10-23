@@ -8,8 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
 
 import nugnikoll.db.city_db;
 import nugnikoll.util.city_content;
@@ -19,7 +18,7 @@ public class my_application extends Application{
 
 	private static my_application m_application;
 	private city_db m_city_db;
-	private List<city_content> m_city_list;
+	private Vector<city_content> m_city_list;
 
 	@Override
 	public void onCreate(){
@@ -31,7 +30,7 @@ public class my_application extends Application{
 	}
 
 	private void init_city_list(){
-		m_city_list = new ArrayList<city_content>();
+		m_city_list = new Vector<city_content>();
 
 		new Thread(new Runnable(){
 			@Override
@@ -54,7 +53,7 @@ public class my_application extends Application{
 		return true;
 	}
 	
-	public List<city_content> get_city_list(){
+	public Vector<city_content> get_city_list(){
 		return m_city_list;
 	}
 
