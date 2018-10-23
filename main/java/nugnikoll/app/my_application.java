@@ -53,6 +53,10 @@ public class my_application extends Application{
 
 		return true;
 	}
+	
+	public List<city_content> get_city_list(){
+		return m_city_list;
+	}
 
 	public static my_application get_instance(){
 		return m_application;
