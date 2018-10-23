@@ -4,8 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
 
 import nugnikoll.util.city_content;
 
@@ -18,8 +17,8 @@ public class city_db{
 		db = context.openOrCreateDatabase(path, Context.MODE_PRIVATE, null);
 	}
 
-	public List<city_content> get_city_list(){
-		List<city_content> city_list = new ArrayList<city_content>();
+	public Vector<city_content> get_city_list(){
+		Vector<city_content> city_list = new Vector<city_content>();
 		Cursor cs = db.rawQuery("SELECT * from " + city_table_name, null);
 		while(cs.moveToNext()){
 			city_content item = new city_content();
