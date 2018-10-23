@@ -275,6 +275,10 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	protected void onActivityResult(int request_code, int result_code, Intent data){
 		if(request_code == 1 && result_code == RESULT_OK){
 			String new_city_code = data.getStringExtra("city_code");
+			SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putString("main_city_code", new_city_code);
+			editor.apply();
 			Log.d("my_weather", "the selected city code is " + new_city_code);
 
 			if(net_util.get_network_state(this) != net_util.NETWORK_NONE){
