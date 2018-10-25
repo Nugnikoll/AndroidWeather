@@ -2,6 +2,7 @@ package nugnikoll.weather;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,14 +23,12 @@ public class act_city extends Activity implements View.OnClickListener{
 	private TextView text_city_select;
 	
 	private Vector<city_content> data_city;
-	private int pos_select = -1;
+	private city_content select_city_content;
 
 	@Override
 	protected void onCreate(Bundle save_instance_state){
 		super.onCreate(save_instance_state);
 		setContentView(R.layout.layout_city);
-
-		text_city_select = (TextView) findViewById(R.id.title_city_select);
 
 		button_back = (ImageView) findViewById(R.id.title_back);
 		button_back.setOnClickListener(this);
@@ -39,8 +38,8 @@ public class act_city extends Activity implements View.OnClickListener{
 			new AdapterView.OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-					pos_select = position;
-					text_city_select.setText("当前城市：" + data_city.elementAt(position).city);
+					select_city_content = data_city.elementAt(position);
+					text_city_select.setText("当前城市：" + select_city_content.city);
 				}
 			}
 		);
@@ -48,18 +47,29 @@ public class act_city extends Activity implements View.OnClickListener{
 		my_application m_app = (my_application) getApplication();
 		data_city = m_app.get_city_list();
 		init_list();
+
+		select_city_content = new city_content();
+		
+		SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+		select_city_content.city = sharedPreferences.getString("select_city", "北京");
+		select_city_content.number = sharedPreferences.getString("select_city_code", "101010100");
+		
+		text_city_select = (TextView) findViewById(R.id.title_city_select);
+		text_city_select.setText("当前城市：" + select_city_content.city);
 	}
 
 	@Override
 	public void onClick(View view){
 		switch(view.getId()){
 		case R.id.title_back:
+			SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putString("select_city", select_city_content.city);
+			editor.putString("select_city_code", select_city_content.number);
+			editor.apply();
+
 			Intent itt = new Intent();
-			if(pos_select >= 0){
-				itt.putExtra("city_code", data_city.elementAt(pos_select).number);
-			}else{
-				itt.putExtra("city_code", "101160101");
-			}
+			itt.putExtra("city_code", select_city_content.number);
 			setResult(RESULT_OK, itt);
 			finish();
 			break;
