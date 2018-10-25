@@ -103,9 +103,75 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		text_humidity.setText("湿度" + content.humidity);
 		text_pm_data.setText(content.pm_data);
 		text_pm_quality.setText(content.pm_quality);
-		text_week.setText(content.date);
+		if(content.pm_data == null || content.pm_data.equals("")){
+			image_pm.setVisibility(View.INVISIBLE);
+		}else{
+			image_pm.setVisibility(View.VISIBLE);
+			if(Integer.valueOf(content.pm_data) <= 50){
+				image_pm.setImageResource(R.drawable.biz_plugin_weather_0_50);
+			}else if(Integer.valueOf(content.pm_data) <= 100){
+				image_pm.setImageResource(R.drawable.biz_plugin_weather_51_100);
+			}else if(Integer.valueOf(content.pm_data) <= 150){
+				image_pm.setImageResource(R.drawable.biz_plugin_weather_101_150);
+			}else if(Integer.valueOf(content.pm_data) < 200){
+				image_pm.setImageResource(R.drawable.biz_plugin_weather_151_200);
+			}else if(Integer.valueOf(content.pm_data) < 300){
+				image_pm.setImageResource(R.drawable.biz_plugin_weather_201_300);
+			}else{
+				image_pm.setImageResource(R.drawable.biz_plugin_weather_greater_300);
+			}
+		}
+			text_week.setText(content.date);
 		text_temperature.setText(content.thermo_low + "~" + content.thermo_high);
 		text_climate.setText(content.weather_type);
+		if(content.weather_type == null){
+			image_weather.setVisibility(View.INVISIBLE);
+		}else{
+			image_weather.setVisibility(View.VISIBLE);
+			if(content.weather_type.equals("晴")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_qing);
+			}else if(content.weather_type.equals("暴雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_baoxue);
+			}else if(content.weather_type.equals("暴雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_baoyu);
+			}else if(content.weather_type.equals("大暴雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_dabaoyu);
+			}else if(content.weather_type.equals("大雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_daxue);
+			}else if(content.weather_type.equals("大雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_dayu);
+			}else if(content.weather_type.equals("多云")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_duoyun);
+			}else if(content.weather_type.equals("雷阵雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_leizhenyu);
+			}else if(content.weather_type.equals("雷阵雨冰雹")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_leizhenyubingbao);
+			}else if(content.weather_type.equals("沙尘暴")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_shachenbao);
+			}else if(content.weather_type.equals("特大暴雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_tedabaoyu);
+			}else if(content.weather_type.equals("雾")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_wu);
+			}else if(content.weather_type.equals("小雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_xiaoxue);
+			}else if(content.weather_type.equals("小雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_xiaoyu);
+			}else if(content.weather_type.equals("阴")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_yin);
+			}else if(content.weather_type.equals("雨夹雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_yujiaxue);
+			}else if(content.weather_type.equals("阵雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_zhenxue);
+			}else if(content.weather_type.equals("阵雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_zhenyu);
+			}else if(content.weather_type.equals("中雪")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_zhongxue);
+			}else if(content.weather_type.equals("中雨")){
+				image_weather.setImageResource(R.drawable.biz_plugin_weather_zhongyu);
+			}else{
+				image_weather.setVisibility(View.INVISIBLE);
+			}
+		}
 		text_wind.setText("风力" + content.wind_strength);
 		Toast.makeText(MainActivity.this, "更新成功", Toast.LENGTH_SHORT).show();
 	}
