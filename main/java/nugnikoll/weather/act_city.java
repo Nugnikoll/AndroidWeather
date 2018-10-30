@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +25,8 @@ public class act_city extends Activity implements View.OnClickListener{
 	private ImageView button_back;
 	private ListView list_city;
 	private TextView text_city_select;
-	
+	private EditText edit_search;
+
 	private Vector<city_content> data_city;
 	private city_content select_city_content;
 
@@ -56,6 +61,22 @@ public class act_city extends Activity implements View.OnClickListener{
 		
 		text_city_select = (TextView) findViewById(R.id.title_city_select);
 		text_city_select.setText("当前城市：" + select_city_content.city);
+
+		edit_search = (EditText) findViewById(R.id.edit_search);
+		edit_search.setOnEditorActionListener(
+			new EditText.OnEditorActionListener(){
+				@Override
+				public boolean onEditorAction(TextView view, int id, KeyEvent event){
+					if(id == EditorInfo.IME_ACTION_SEARCH){
+						Log.d("my_weather", "action search");
+						return true;
+					}else{
+						Log.d("my_weather", "action other");
+						return false;
+					}
+				}
+			} 
+		);
 	}
 
 	@Override
