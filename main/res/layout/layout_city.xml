@@ -42,7 +42,8 @@
 		android:textSize="20.0dip"
 		android:hint="搜索城市"
 		android:singleLine="true"
-		android:imeOptions="actionSearch"/>
+		android:imeOptions="actionSearch"
+		android:textColorHint="#808080"/>
 	<ListView
 		android:layout_below="@id/edit_search"
 		android:id="@+id/list_city"
