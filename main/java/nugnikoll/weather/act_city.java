@@ -19,6 +19,7 @@ import android.widget.Toast;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import nugnikoll.app.my_application;
 import nugnikoll.util.city_content;
@@ -74,7 +75,13 @@ public class act_city extends Activity implements View.OnClickListener{
 					if(id == EditorInfo.IME_ACTION_SEARCH){
 						Log.d("my_weather", "action search");
 						String str = edit_search.getText().toString();
-						Pattern ptn = Pattern.compile(str);
+						Pattern ptn;
+						try{
+							ptn = Pattern.compile(str);
+						}catch (PatternSyntaxException err){
+							Toast.makeText(act_city.this, err.getDescription(), Toast.LENGTH_LONG).show();
+							return true;
+						}
 						data_search = new Vector<city_content>();
 						for(city_content content: data_city){
 							Matcher mtc_city = ptn.matcher(content.city);
