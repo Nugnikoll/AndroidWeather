@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import nugnikoll.app.my_application;
 import nugnikoll.util.city_content;
@@ -28,6 +30,7 @@ public class act_city extends Activity implements View.OnClickListener{
 	private EditText edit_search;
 
 	private Vector<city_content> data_city;
+	private Vector<city_content> data_search;
 	private city_content select_city_content;
 
 	@Override
@@ -43,7 +46,7 @@ public class act_city extends Activity implements View.OnClickListener{
 			new AdapterView.OnItemClickListener(){
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-					select_city_content = data_city.elementAt(position);
+					select_city_content = data_search.elementAt(position);
 					text_city_select.setText("当前城市：" + select_city_content.city);
 				}
 			}
@@ -51,6 +54,7 @@ public class act_city extends Activity implements View.OnClickListener{
 		
 		my_application m_app = (my_application) getApplication();
 		data_city = m_app.get_city_list();
+		data_search = new Vector<city_content>(data_city);
 		init_list();
 
 		select_city_content = new city_content();
@@ -69,13 +73,25 @@ public class act_city extends Activity implements View.OnClickListener{
 				public boolean onEditorAction(TextView view, int id, KeyEvent event){
 					if(id == EditorInfo.IME_ACTION_SEARCH){
 						Log.d("my_weather", "action search");
+						String str = edit_search.getText().toString();
+						Pattern ptn = Pattern.compile(str);
+						data_search = new Vector<city_content>();
+						for(city_content content: data_city){
+							Matcher mtc_city = ptn.matcher(content.city);
+							Matcher mtc_province = ptn.matcher(content.province);
+							Matcher mtc_number = ptn.matcher(content.number);
+							if(mtc_city.find() || mtc_province.find() || mtc_number.find()){
+								data_search.add(content);
+							}
+						}
+						init_list();
 						return true;
 					}else{
 						Log.d("my_weather", "action other");
 						return false;
 					}
 				}
-			} 
+			}
 		);
 	}
 
@@ -102,8 +118,8 @@ public class act_city extends Activity implements View.OnClickListener{
 	private void init_list(){
 		Vector<String> data = new Vector<String>();
 		
-		for(city_content item: data_city){
-			data.add(item.city + " " + item.number);
+		for(city_content item: data_search){
+			data.add(item.province + " " + item.city + " " + item.number);
 		}
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 			this, android.R.layout.simple_list_item_1, data
