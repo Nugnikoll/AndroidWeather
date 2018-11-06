@@ -19,4 +19,14 @@ public class city_content{
 		this.all_py = all_py;
 		this.all_first_py = all_first_py;
 	}
+	
+	@Override
+	public String toString(){
+		return "province:" + province
+			+ ", city:" + city
+			+ ", number:" + number
+			+ ", first_py:" + first_py
+			+ ", all_py:" + all_py
+			+ ", all_first_py:" + all_first_py;
+	}
 }

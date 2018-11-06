@@ -83,6 +83,7 @@ public class act_city extends Activity implements View.OnClickListener{
 							return true;
 						}
 						data_search = new Vector<city_content>();
+						//Log.d("my_weather", data_city.elementAt(0).toString());
 						for(city_content content: data_city){
 							Matcher mtc_city = ptn.matcher(content.city);
 							Matcher mtc_province = ptn.matcher(content.province);
