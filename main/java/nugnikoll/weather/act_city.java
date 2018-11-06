@@ -88,7 +88,12 @@ public class act_city extends Activity implements View.OnClickListener{
 							Matcher mtc_province = ptn.matcher(content.province);
 							Matcher mtc_number = ptn.matcher(content.number);
 							Matcher mtc_py = ptn.matcher(content.all_py);
-							if(mtc_city.find() || mtc_province.find() || mtc_number.find() || mtc_py.find()){
+							Matcher mtc_pyfirst = ptn.matcher(content.all_first_py.toLowerCase());
+							Log.d("my_weather", "first py" + content.first_py);
+							if(
+								mtc_city.find() || mtc_province.find()
+								|| mtc_number.find() || mtc_py.find() || mtc_pyfirst.find()
+							){
 								data_search.add(content);
 							}
 						}
