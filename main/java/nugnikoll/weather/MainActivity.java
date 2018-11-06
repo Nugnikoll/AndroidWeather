@@ -97,6 +97,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	}
 
 	private void update_weather(weather_content content){
+//		if(content.city.equals("null")){
+//			
+//		}
 		text_city_name.setText(content.city + "天气");
 		text_city.setText(content.city);
 		text_time.setText(content.update_time + "发布");
@@ -203,56 +206,44 @@ public class MainActivity extends Activity implements View.OnClickListener{
 						if(xml_parser.getName().equals("city")){
 							xml_parser.next();
 							content.city = xml_parser.getText();
-							//Log.d("my_weather", "city: " + xml_parser.getText());
 						}else if(xml_parser.getName().equals("updatetime")){
 							xml_parser.next();
 							content.update_time = xml_parser.getText();
-							//Log.d("my_weather", "update_time: " + xml_parser.getText());
 						}else if(xml_parser.getName().equals("shidu")){
 							xml_parser.next();
 							content.humidity = xml_parser.getText();
-							//Log.d("my_weather", "humidity: " + xml_parser.getText());
 						}else if(xml_parser.getName().equals("wendu")){
 							xml_parser.next();
 							content.temperature = xml_parser.getText();
-							//Log.d("my_weather", "temperature: " + xml_parser.getText());
 						}else if(xml_parser.getName().equals("pm25")){
 							xml_parser.next();
 							content.pm_data = xml_parser.getText();
-							//Log.d("my_weather", "pm2.5: " + xml_parser.getText());
 						}else if(xml_parser.getName().equals("quality")){
 							xml_parser.next();
 							content.pm_quality = xml_parser.getText();
-							//Log.d("my_weather", "quality: " + xml_parser.getText());
 						}else if(xml_parser.getName().equals("fengxiang") && wind_direction == 0){
 							xml_parser.next();
 							content.wind_direction = xml_parser.getText();
-							//Log.d("my_weather", "wind direction: " + xml_parser.getText());
 							wind_direction = 1;
 						}else if(xml_parser.getName().equals("fengli") && wind_strength == 0){
 							xml_parser.next();
 							content.wind_strength = xml_parser.getText();
-							//Log.d("my_weather", "wind strength: " + xml_parser.getText());
 							wind_strength = 1;
 						}else if(xml_parser.getName().equals("date") && date == 0){
 							xml_parser.next();
 							content.date = xml_parser.getText();
-							//Log.d("my_weather", "date: " + xml_parser.getText());
 							date = 1;
 						}else if(xml_parser.getName().equals("high") && thermo_high == 0){
 							xml_parser.next();
 							content.thermo_high = xml_parser.getText();
-							//Log.d("my_weather", "thermo high: " + xml_parser.getText());
 							thermo_high = 1;
 						}else if(xml_parser.getName().equals("low") && thermo_low == 0){
 							xml_parser.next();
 							content.thermo_low = xml_parser.getText();
-							//Log.d("my_weather", "thermo_low: " + xml_parser.getText());
 							thermo_low = 1;
 						}else if(xml_parser.getName().equals("type") && weather_type == 0){
 							xml_parser.next();
 							content.weather_type = xml_parser.getText();
-							//Log.d("my_weather", "weather type: " + xml_parser.getText());
 							weather_type = 1;
 						}
 					}

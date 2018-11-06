@@ -87,7 +87,8 @@ public class act_city extends Activity implements View.OnClickListener{
 							Matcher mtc_city = ptn.matcher(content.city);
 							Matcher mtc_province = ptn.matcher(content.province);
 							Matcher mtc_number = ptn.matcher(content.number);
-							if(mtc_city.find() || mtc_province.find() || mtc_number.find()){
+							Matcher mtc_py = ptn.matcher(content.all_py);
+							if(mtc_city.find() || mtc_province.find() || mtc_number.find() || mtc_py.find()){
 								data_search.add(content);
 							}
 						}
