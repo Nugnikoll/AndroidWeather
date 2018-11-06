@@ -9,6 +9,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,12 +36,15 @@ public class MainActivity extends Activity implements View.OnClickListener{
 	private TextView text_city, text_time, text_humidity, text_week, text_pm_data;
 	private TextView text_pm_quality, text_temperature, text_climate, text_wind, text_city_name;
 	private ImageView image_weather, image_pm;
+	private ProgressBar progress_update;
 
 	private Handler handler_update = new Handler() {
 		public void handleMessage(android.os.Message msg){
 			switch(msg.what){
 			case UPDATE_WEATHER:
 				update_weather((weather_content) msg.obj);
+				button_update.setVisibility(View.VISIBLE);
+				progress_update.setVisibility(View.INVISIBLE);
 				break;
 			default:
 				break;
@@ -58,6 +62,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 		button_select = (ImageView) findViewById(R.id.title_city_manager);
 		button_select.setOnClickListener(this);
+
+		progress_update = (ProgressBar) findViewById(R.id.progress_update);
 
 		init_view();
 
@@ -314,6 +320,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 			Intent itt = new Intent(this, act_city.class);
 			startActivityForResult(itt, 1);
 		}else if(view.getId() == R.id.title_update_button){
+			button_update.setVisibility(View.INVISIBLE);
+			progress_update.setVisibility(View.VISIBLE);
+
 			SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
 			String city_code = sharedPreferences.getString("select_city_code", "101010100");
 			Log.d("my_weather", city_code);
